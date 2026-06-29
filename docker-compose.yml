@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: admin-panel-postgres
+    environment:
+      POSTGRES_USER: ${DATABASE_USER:-admin}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-admin_password_123}
+      POSTGRES_DB: ${DATABASE_NAME:-admin_panel_db}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=en_US.UTF-8"
+    ports:
+      - "${DATABASE_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER:-admin}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - admin-panel-network
+    restart: unless-stopped
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: admin-panel-redis
+    command: redis-server --appendonly yes --requirepass ""
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - admin-panel-network
+    restart: unless-stopped
+
+  # pgAdmin (Database Management UI) - Optional
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: admin-panel-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin-panel.com
+      PGADMIN_DEFAULT_PASSWORD: admin_password_123
+    ports:
+      - "5050:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - admin-panel-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  admin-panel-network:
+    driver: bridge
+
+# ================================
+# QUICK COMMANDS
+# ================================
+# Start all services:
+#   docker-compose up -d
+#
+# View logs:
+#   docker-compose logs -f
+#
+# Stop all services:
+#   docker-compose down
+#
+# Remove volumes (WARNING: Deletes data):
+#   docker-compose down -v
+#
+# Access PostgreSQL:
+#   docker-compose exec postgres psql -U admin -d admin_panel_db
+#
+# Access Redis:
+#   docker-compose exec redis redis-cli
+#
+# Access pgAdmin:
+#   http://localhost:5050 (admin@admin-panel.com / admin_password_123)
