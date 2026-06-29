@@ -31,7 +31,7 @@ const LoginForm: React.FC = () => {
       {/* Champ Email */}
       <div className="flex flex-col gap-2">
         <label className="text-sm font-medium text-slate-300">Email</label>
-        <div className="flex items-center gap-3 p-3 border border-slate-700 rounded-lg transition-colors focus-within:border-blue-500 bg-slate-900/50">
+        <div className="flex items-center gap-3 p-3 border border-slate-700 rounded-lg transition-colors focus-within:border-blue-500 ">
           <IconWrapper color="#3b82f6">
             <UserIcon className="w-6 h-6" />
           </IconWrapper>

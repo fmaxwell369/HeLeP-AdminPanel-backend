@@ -1,4 +1,30 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    
+  }
+}
+
+@layer utilities {
+  .text-helep-shimmer {
+    /* Dégradé HeLeP */
+    background: linear-gradient(90deg, #ef4444 0%, #eab308 33%, #22c55e 66%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    
+    /* Rendre le texte transparent pour voir le dégradé */
+    color: transparent;
+    
+    /* Le contour (stroke) pour la netteté sur fond blanc */
+    -webkit-text-stroke: 1.1px rgba(223, 28, 28, 0.5);
+    
+    /* Éclat léger */
+    text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1);
+  }
+}
 
 @layer base {
   :root {
@@ -35,7 +61,7 @@
   color: transparent;
   
   /* Pour l'animation ou le style */
-  font-weight: 800;
+
   display: inline-block;
 }
 
@@ -54,4 +80,32 @@
   opacity: 0.5;
   background: inherit;
   -webkit-background-clip: text;
+}
+
+/* 1. Largeur générale */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* 2. Zone de fond (la piste) */
+::-webkit-scrollbar-track {
+  background: #176bbf; /* gris très clair */
+}
+
+/* 3. Le curseur (la poignée) */
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1; /* slate-300 */
+  border-radius: 9999px; /* Totalement arrondi comme dans ton design */
+  border: 2px solid #f8fafc; /* Petit espace visuel pour le rendre flottant */
+}
+
+/* 4. Effet de survol avec ton branding HeLeP */
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8; /* slate-400 */
+}
+
+/* 5. Optionnel : Si tu veux une couleur dynamique au survol sur des zones spécifiques */
+.scrollbar-helep::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #ef4444, #eab308, #22c55e);
 }
