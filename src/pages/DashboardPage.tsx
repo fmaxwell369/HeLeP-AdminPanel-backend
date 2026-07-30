@@ -1,6 +1,6 @@
 // src/pages/DashboardPage.tsx
 import React from 'react';
-import { DashboardLayout } from '../components/layout/DashboardLayout';
+import { useNavigate } from 'react-router-dom';
 import { 
   ArrowRight, 
   ExternalLink, 
@@ -9,12 +9,11 @@ import {
   Wallet, 
   Settings,
   LayoutDashboard,
-  Users,
-  AlertCircle
+  Users
 } from 'lucide-react';
 
 // Composant pour les cartes type "Service"
-const ServiceCard = ({ icon: Icon, title, description, actionText, subAction }: any) => (
+const ServiceCard = ({ icon: Icon, title, description, actionText, subAction, onAction }: any) => (
   <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col justify-between">
     <div>
       <div className="flex items-center gap-3 mb-4">
@@ -35,7 +34,10 @@ const ServiceCard = ({ icon: Icon, title, description, actionText, subAction }: 
          </span>
       ) : <div />}
       
-      <button className="text-blue-600 font-medium text-sm flex items-center gap-1 hover:gap-2 transition-all ml-auto">
+      <button 
+        onClick={onAction}
+        className="text-blue-600 font-medium text-sm flex items-center gap-1 hover:gap-2 transition-all ml-auto cursor-pointer"
+      >
         {actionText} <ArrowRight size={16} />
       </button>
     </div>
@@ -43,8 +45,10 @@ const ServiceCard = ({ icon: Icon, title, description, actionText, subAction }: 
 );
 
 const DashboardPage: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
-    <DashboardLayout>
+    <div>
       <header className="mb-10">
         <h2 className="text-4xl font-extrabold text-slate-900 text-helep-shimmer">
           Services disponibles
@@ -60,6 +64,7 @@ const DashboardPage: React.FC = () => {
           description="Gérez les accès, les sessions et la sécurité des comptes utilisateurs en temps réel."
           actionText="Configure"
           subAction="Documentation"
+          onAction={() => navigate('/dashboard/auth')}
         />
         
         {/* Manage Dispute */}
@@ -68,6 +73,7 @@ const DashboardPage: React.FC = () => {
           title="Manage Dispute" 
           description="Accédez aux litiges en cours, examinez les preuves et résolvez les conflits rapidement."
           actionText="Review"
+          onAction={() => navigate('/dashboard/disputes')}
         />
 
         {/* Escrow Details */}
@@ -77,6 +83,7 @@ const DashboardPage: React.FC = () => {
           description="Surveillez les transactions sous séquestre et le statut des fonds bloqués."
           actionText="View Funds"
           subAction="Audit"
+          onAction={() => navigate('/dashboard/escrow')}
         />
 
         {/* Admin Interface */}
@@ -85,24 +92,28 @@ const DashboardPage: React.FC = () => {
           title="Admin Interface" 
           description="Paramètres globaux, configuration des permissions et outils de maintenance système."
           actionText="Settings"
+          onAction={() => navigate('/dashboard/settings')}
         />
 
-        {/* Autres services */}
+        {/* Analytics */}
         <ServiceCard 
           icon={LayoutDashboard} 
           title="Analytics" 
           description="Visualisez les rapports d'activité et les métriques de performance de HeLeP."
           actionText="Open"
+          onAction={() => navigate('/dashboard/analytics')}
         />
         
+        {/* User Management */}
         <ServiceCard 
           icon={Users} 
           title="User Management" 
           description="Gérez les comptes admins et les permissions d'accès au niveau granulaire."
           actionText="Manage"
+          onAction={() => navigate('/dashboard/users')}
         />
       </div>
-    </DashboardLayout>
+    </div>
   );
 };
 
