@@ -1,16 +1,24 @@
 // src/features/auth/pages/LoginPage.tsx
 import React from 'react';
 import LoginForm from '../features/auth/components/LoginForm';
+import { authService } from '../features/auth/services/authServices';
 
 const LoginPage: React.FC = () => {
+  const handleLogin = async (data: any) => {
+    await authService.login(data);
+    window.location.href = '/dashboard'; // Redirection après connexion réussie
+  };
+
+  const handleForgotPassword = async (email: string) => {
+    await authService.forgotPassword(email);
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center p-5">
-      <div className="w-full max-w-[400px] bg-slate-900 p-10 rounded-2xl border border-white/5 shadow-2xl text-center">
-        <h1 className="text-2xl font-bold text-slate-50 mb-2">Administration</h1>
-        <p className="text-sm text-slate-400 mb-8">Connexion sécurisée à votre espace</p>
-        
-        <LoginForm />
-      </div>
+    <div className="w-full">
+      <LoginForm 
+        onLogin={handleLogin} 
+        onForgotPassword={handleForgotPassword} 
+      />
     </div>
   );
 };
