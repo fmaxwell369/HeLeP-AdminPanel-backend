@@ -1,30 +1,5 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
-@layer base {
-  body {
-    font-family: 'Inter', sans-serif;
-    
-  }
-}
-
-@layer utilities {
-  .text-helep-shimmer {
-    /* Dégradé HeLeP */
-    background: linear-gradient(90deg, #ef4444 0%, #eab308 33%, #22c55e 66%, #3b82f6 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    
-    /* Rendre le texte transparent pour voir le dégradé */
-    color: transparent;
-    
-    /* Le contour (stroke) pour la netteté sur fond blanc */
-    -webkit-text-stroke: 1.1px rgba(223, 28, 28, 0.5);
-    
-    /* Éclat léger */
-    text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1);
-  }
-}
+@import "tailwindcss";
 
 @layer base {
   :root {
@@ -33,18 +8,25 @@
     --color-green: #4ade80;
     --color-blue: #60a5fa;
   }
+
+  body {
+    font-family: 'Inter', sans-serif;
+  }
 }
 
-/* Définition des couleurs de ton logo */
-:root {
-  --color-red: #f87171;
-  --color-yellow: #facc15;
-  --color-green: #4ade80;
-  --color-blue: #60a5fa;
+@layer utilities {
+  .text-helep-shimmer {
+    background: linear-gradient(90deg, #ef4444 0%, #eab308 33%, #22c55e 66%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-stroke: 1.1px rgba(223, 28, 28, 0.5);
+    text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1);
+  }
 }
 
 .helep-text {
-  /* Le dégradé qui contient les 4 couleurs */
+  position: relative;
   background: linear-gradient(
     90deg, 
     var(--color-red) 25%, 
@@ -52,22 +34,10 @@
     var(--color-green) 50% 75%, 
     var(--color-blue) 75%
   );
-  
-  /* La magie : on découpe le background selon la forme du texte */
   -webkit-background-clip: text;
   background-clip: text;
-  
-  /* On rend le texte transparent pour voir le background derrière */
   color: transparent;
-  
-  /* Pour l'animation ou le style */
-
   display: inline-block;
-}
-
-.helep-text {
-  position: relative;
-  /* ... précédent code ... */
 }
 
 .helep-text::after {
@@ -82,30 +52,26 @@
   -webkit-background-clip: text;
 }
 
-/* 1. Largeur générale */
+/* Scrollbar personnalisée */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
-/* 2. Zone de fond (la piste) */
 ::-webkit-scrollbar-track {
-  background: #176bbf; /* gris très clair */
+  background: #176bbf;
 }
 
-/* 3. Le curseur (la poignée) */
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1; /* slate-300 */
-  border-radius: 9999px; /* Totalement arrondi comme dans ton design */
-  border: 2px solid #f8fafc; /* Petit espace visuel pour le rendre flottant */
+  background: #cbd5e1;
+  border-radius: 9999px;
+  border: 2px solid #f8fafc;
 }
 
-/* 4. Effet de survol avec ton branding HeLeP */
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8; /* slate-400 */
+  background: #94a3b8;
 }
 
-/* 5. Optionnel : Si tu veux une couleur dynamique au survol sur des zones spécifiques */
 .scrollbar-helep::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(to bottom, #ef4444, #eab308, #22c55e);
 }
